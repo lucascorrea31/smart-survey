@@ -1,0 +1,23 @@
+{
+  "entryFile": "src/main.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": [
+    "src/infrastructure/controllers/*-controller.ts"
+  ],
+  "spec": {
+    "outputDirectory": "swagger",
+    "specVersion": 3,
+    "spec": {
+      "servers": [
+        {
+          "url": "http://localhost:3000/smart-survey/v1",
+          "description": "Local environment"
+        },
+        {
+          "url": "https://vercel/smart-survey/v1",
+          "description": "Q&A environment"
+        }
+      ]
+    }
+  }
+}

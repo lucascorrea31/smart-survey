@@ -1,0 +1,9 @@
+{
+    "cSpell.words": [
+        "pino",
+        "tsoa",
+        "tsyringe",
+        "typeorm"
+    ],
+    "typescript.tsdk": "node_modules/typescript/lib"
+}

@@ -1,0 +1,1165 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"HttpStatusCode": {
+				"enum": [
+					200,
+					201,
+					204,
+					301,
+					304,
+					400,
+					401,
+					403,
+					404,
+					405,
+					408,
+					409,
+					415,
+					429,
+					500,
+					502,
+					503,
+					504
+				],
+				"type": "number"
+			},
+			"UUID": {
+				"type": "string",
+				"format": "uuid",
+				"description": "Stringified UUIDv4.\nSee [RFC 4112](https://tools.ietf.org/html/rfc4122)",
+				"pattern": "[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}"
+			},
+			"PersonDocumentType": {
+				"enum": [
+					1,
+					2,
+					3
+				],
+				"type": "number"
+			},
+			"PartyMetadataEnum": {
+				"enum": [
+					"superapp_meu-escritorio",
+					"superapp_minha-empresa",
+					"superapp_empregado"
+				],
+				"type": "string"
+			},
+			"PartyMetadata": {
+				"properties": {
+					"availableApps": {
+						"items": {
+							"$ref": "#/components/schemas/PartyMetadataEnum"
+						},
+						"type": "array"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PersonEntity": {
+				"properties": {
+					"id": {
+						"$ref": "#/components/schemas/UUID"
+					},
+					"firstName": {
+						"type": "string"
+					},
+					"lastName": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string",
+						"nullable": true
+					},
+					"phoneNumber": {
+						"type": "string",
+						"nullable": true
+					},
+					"documentType": {
+						"$ref": "#/components/schemas/PersonDocumentType"
+					},
+					"documentNumber": {
+						"type": "string"
+					},
+					"birthDate": {
+						"type": "string",
+						"format": "date-time",
+						"nullable": true
+					},
+					"jobRole": {
+						"type": "string",
+						"nullable": true
+					},
+					"partyId": {
+						"type": "string",
+						"nullable": true
+					},
+					"metadata": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/PartyMetadata"
+							}
+						],
+						"nullable": true
+					}
+				},
+				"required": [
+					"id",
+					"firstName",
+					"lastName",
+					"documentType",
+					"documentNumber",
+					"partyId",
+					"metadata"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"HttpResponse_PersonEntity-or-string-or-string-Array-or-null_": {
+				"properties": {
+					"status": {
+						"$ref": "#/components/schemas/HttpStatusCode"
+					},
+					"result": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/PersonEntity"
+							},
+							{
+								"type": "string"
+							},
+							{
+								"items": {
+									"type": "string"
+								},
+								"type": "array"
+							}
+						],
+						"nullable": true
+					}
+				},
+				"required": [
+					"status",
+					"result"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ErrorEnum": {
+				"enum": [
+					"CREDENTIAL_INVALID",
+					"PERSON_ALREADY_EXISTS",
+					"RELATIONSHIP_ALREADY_EXISTS",
+					"ORGANIZATION_ALREADY_EXISTS"
+				],
+				"type": "string"
+			},
+			"HttpResponse_ErrorEnum_": {
+				"properties": {
+					"status": {
+						"$ref": "#/components/schemas/HttpStatusCode"
+					},
+					"result": {
+						"$ref": "#/components/schemas/ErrorEnum"
+					}
+				},
+				"required": [
+					"status",
+					"result"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BaseAddressDto": {
+				"properties": {
+					"zipCode": {
+						"type": "string"
+					},
+					"country": {
+						"type": "string"
+					},
+					"state": {
+						"type": "string"
+					},
+					"city": {
+						"type": "string"
+					},
+					"complement": {
+						"type": "string",
+						"nullable": true
+					},
+					"number": {
+						"type": "string"
+					},
+					"addressLine2": {
+						"type": "string",
+						"nullable": true
+					},
+					"address": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"zipCode",
+					"country",
+					"state",
+					"city",
+					"number",
+					"address"
+				],
+				"type": "object"
+			},
+			"CreateAddressLocationRequestInputDto": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/BaseAddressDto"
+					},
+					{
+						"properties": {
+							"locationType": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"locationType"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"Pick_PersonEntity.Exclude_keyofPersonEntity.id-or-party__": {
+				"properties": {
+					"firstName": {
+						"type": "string"
+					},
+					"lastName": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"phoneNumber": {
+						"type": "string"
+					},
+					"documentType": {
+						"$ref": "#/components/schemas/PersonDocumentType"
+					},
+					"documentNumber": {
+						"type": "string"
+					},
+					"birthDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"jobRole": {
+						"type": "string"
+					},
+					"partyId": {
+						"type": "string"
+					},
+					"metadata": {
+						"$ref": "#/components/schemas/PartyMetadata"
+					}
+				},
+				"required": [
+					"firstName",
+					"lastName",
+					"documentType",
+					"documentNumber",
+					"partyId",
+					"metadata"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"PersonRequestEntity": {
+				"properties": {
+					"firstName": {
+						"type": "string"
+					},
+					"lastName": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"phoneNumber": {
+						"type": "string"
+					},
+					"documentType": {
+						"$ref": "#/components/schemas/PersonDocumentType"
+					},
+					"documentNumber": {
+						"type": "string"
+					},
+					"birthDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"jobRole": {
+						"type": "string"
+					},
+					"partyId": {
+						"type": "string"
+					},
+					"metadata": {
+						"$ref": "#/components/schemas/PartyMetadata"
+					},
+					"location": {
+						"$ref": "#/components/schemas/CreateAddressLocationRequestInputDto"
+					}
+				},
+				"required": [
+					"firstName",
+					"lastName",
+					"documentType",
+					"documentNumber",
+					"partyId",
+					"metadata"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RelationshipType": {
+				"enum": [
+					1,
+					2,
+					3,
+					4
+				],
+				"type": "number"
+			},
+			"PartyRelationshipMetadata": {
+				"properties": {
+					"employeeId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"employeeId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PartyRelationshipEntity": {
+				"properties": {
+					"id": {
+						"$ref": "#/components/schemas/UUID"
+					},
+					"fromParty": {
+						"type": "string"
+					},
+					"toParty": {
+						"type": "string"
+					},
+					"relationshipStarted": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"relationshipEnded": {
+						"type": "string",
+						"format": "date-time",
+						"nullable": true
+					},
+					"relationshipType": {
+						"$ref": "#/components/schemas/RelationshipType"
+					},
+					"metadata": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/PartyRelationshipMetadata"
+							}
+						],
+						"nullable": true
+					},
+					"createdBy": {
+						"type": "string",
+						"nullable": true
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedBy": {
+						"type": "string",
+						"nullable": true
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"deletedBy": {
+						"type": "string",
+						"nullable": true
+					},
+					"deletedAt": {
+						"type": "string",
+						"format": "date-time",
+						"nullable": true
+					}
+				},
+				"required": [
+					"id",
+					"fromParty",
+					"toParty",
+					"relationshipStarted",
+					"relationshipEnded",
+					"relationshipType",
+					"metadata",
+					"createdBy",
+					"createdAt",
+					"updatedBy",
+					"updatedAt",
+					"deletedBy",
+					"deletedAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"HttpResponse_PartyRelationshipEntity-or-string-Array-or-string-or-null_": {
+				"properties": {
+					"status": {
+						"$ref": "#/components/schemas/HttpStatusCode"
+					},
+					"result": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/PartyRelationshipEntity"
+							},
+							{
+								"items": {
+									"type": "string"
+								},
+								"type": "array"
+							},
+							{
+								"type": "string"
+							}
+						],
+						"nullable": true
+					}
+				},
+				"required": [
+					"status",
+					"result"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateRelationshipPersonToPersonBody": {
+				"properties": {
+					"relationshipType": {
+						"$ref": "#/components/schemas/RelationshipType"
+					},
+					"metadata": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/PartyRelationshipMetadata"
+							}
+						],
+						"nullable": true
+					},
+					"toPersonId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"relationshipType",
+					"metadata",
+					"toPersonId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateRelationshipPersonToOrganizationBody": {
+				"properties": {
+					"relationshipType": {
+						"$ref": "#/components/schemas/RelationshipType"
+					},
+					"metadata": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/PartyRelationshipMetadata"
+							}
+						],
+						"nullable": true
+					},
+					"toOrganizationId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"relationshipType",
+					"metadata",
+					"toOrganizationId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"OrganizationDocumentType": {
+				"enum": [
+					1,
+					2
+				],
+				"type": "number"
+			},
+			"OrganizationSize": {
+				"enum": [
+					1,
+					2,
+					3,
+					4
+				],
+				"type": "number"
+			},
+			"OrganizationCompanyType": {
+				"enum": [
+					1,
+					2,
+					3,
+					4
+				],
+				"type": "number"
+			},
+			"Pick_OrganizationEntity.Exclude_keyofOrganizationEntity.party__": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"documentType": {
+						"$ref": "#/components/schemas/OrganizationDocumentType"
+					},
+					"documentNumber": {
+						"type": "string"
+					},
+					"companyName": {
+						"type": "string"
+					},
+					"tradingName": {
+						"type": "string"
+					},
+					"size": {
+						"$ref": "#/components/schemas/OrganizationSize"
+					},
+					"companyType": {
+						"$ref": "#/components/schemas/OrganizationCompanyType"
+					},
+					"businessPhone": {
+						"type": "string"
+					},
+					"businessEmail": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"documentType",
+					"documentNumber",
+					"companyName",
+					"tradingName"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"OrganizationDetailEntity": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"documentType": {
+						"$ref": "#/components/schemas/OrganizationDocumentType"
+					},
+					"documentNumber": {
+						"type": "string"
+					},
+					"companyName": {
+						"type": "string"
+					},
+					"tradingName": {
+						"type": "string"
+					},
+					"size": {
+						"$ref": "#/components/schemas/OrganizationSize"
+					},
+					"companyType": {
+						"$ref": "#/components/schemas/OrganizationCompanyType"
+					},
+					"businessPhone": {
+						"type": "string"
+					},
+					"businessEmail": {
+						"type": "string"
+					},
+					"partyId": {
+						"type": "string",
+						"nullable": true
+					},
+					"metadata": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/PartyMetadata"
+							}
+						],
+						"nullable": true
+					}
+				},
+				"required": [
+					"id",
+					"documentType",
+					"documentNumber",
+					"companyName",
+					"tradingName",
+					"partyId",
+					"metadata"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"HttpResponse_OrganizationDetailEntity-or-string-Array-or-string-or-null_": {
+				"properties": {
+					"status": {
+						"$ref": "#/components/schemas/HttpStatusCode"
+					},
+					"result": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/OrganizationDetailEntity"
+							},
+							{
+								"items": {
+									"type": "string"
+								},
+								"type": "array"
+							},
+							{
+								"type": "string"
+							}
+						],
+						"nullable": true
+					}
+				},
+				"required": [
+					"status",
+					"result"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Record_string.unknown_": {
+				"properties": {},
+				"additionalProperties": {},
+				"type": "object",
+				"description": "Construct a type with a set of properties K of type T"
+			},
+			"OrganizationRequestDto": {
+				"properties": {
+					"location": {
+						"$ref": "#/components/schemas/CreateAddressLocationRequestInputDto"
+					},
+					"metadata": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Record_string.unknown_"
+							}
+						],
+						"nullable": true
+					},
+					"businessEmail": {
+						"type": "string",
+						"nullable": true
+					},
+					"businessPhone": {
+						"type": "string",
+						"nullable": true
+					},
+					"documentNumber": {
+						"type": "string"
+					},
+					"documentType": {
+						"$ref": "#/components/schemas/OrganizationDocumentType"
+					},
+					"companyType": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/OrganizationCompanyType"
+							}
+						],
+						"nullable": true
+					},
+					"size": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/OrganizationSize"
+							}
+						],
+						"nullable": true
+					},
+					"tradingName": {
+						"type": "string"
+					},
+					"companyName": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"documentNumber",
+					"documentType",
+					"tradingName",
+					"companyName"
+				],
+				"type": "object"
+			},
+			"CreateRelationshipOrganizationToPersonBody": {
+				"properties": {
+					"relationshipType": {
+						"$ref": "#/components/schemas/RelationshipType"
+					},
+					"metadata": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/PartyRelationshipMetadata"
+							}
+						],
+						"nullable": true
+					},
+					"toPersonId": {
+						"$ref": "#/components/schemas/UUID"
+					}
+				},
+				"required": [
+					"relationshipType",
+					"metadata",
+					"toPersonId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateRelationshipOrganizationToOrganizationBody": {
+				"properties": {
+					"relationshipType": {
+						"$ref": "#/components/schemas/RelationshipType"
+					},
+					"metadata": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/PartyRelationshipMetadata"
+							}
+						],
+						"nullable": true
+					},
+					"toOrganizationId": {
+						"$ref": "#/components/schemas/UUID"
+					}
+				},
+				"required": [
+					"relationshipType",
+					"metadata",
+					"toOrganizationId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"HttpResponse_string_": {
+				"properties": {
+					"status": {
+						"$ref": "#/components/schemas/HttpStatusCode"
+					},
+					"result": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"status",
+					"result"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "party-api-service",
+		"version": "1.0.0-1738949866",
+		"description": "TR Fintech Party API Service",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/person": {
+			"post": {
+				"operationId": "CreatePerson",
+				"responses": {
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HttpResponse_PersonEntity-or-string-or-string-Array-or-null_"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Resource already exists",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HttpResponse_ErrorEnum_"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"status": 400,
+											"result": "PERSON_ALREADY_EXISTS"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Person"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/PersonRequestEntity"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/person/{personId}/relationship/persons": {
+			"post": {
+				"operationId": "CreateRelationshipPersons",
+				"responses": {
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HttpResponse_PartyRelationshipEntity-or-string-Array-or-string-or-null_"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Resource already exists",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HttpResponse_ErrorEnum_"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"status": 400,
+											"result": "RELATIONSHIP_ALREADY_EXISTS"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Person"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "personId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateRelationshipPersonToPersonBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/person/{personId}/relationship/organizations": {
+			"post": {
+				"operationId": "CreateRelationshipOrganizations",
+				"responses": {
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HttpResponse_PartyRelationshipEntity-or-string-Array-or-string-or-null_"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Resource already exists",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HttpResponse_ErrorEnum_"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"status": 400,
+											"result": "RELATIONSHIP_ALREADY_EXISTS"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Person"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "personId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateRelationshipPersonToOrganizationBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/organization": {
+			"post": {
+				"operationId": "CreateOrganization",
+				"responses": {
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HttpResponse_OrganizationDetailEntity-or-string-Array-or-string-or-null_"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Resource already exists",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HttpResponse_ErrorEnum_"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"status": 400,
+											"result": "ORGANIZATION_ALREADY_EXISTS"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/OrganizationRequestDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/organization/{organizationId}/relationship/persons": {
+			"post": {
+				"operationId": "CreateRelationshipToPerson",
+				"responses": {
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HttpResponse_PartyRelationshipEntity-or-string-Array-or-string-or-null_"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Resource already exists",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HttpResponse_ErrorEnum_"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"status": 400,
+											"result": "RELATIONSHIP_ALREADY_EXISTS"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "organizationId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateRelationshipOrganizationToPersonBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/organization/{organizationId}/relationship/organizations": {
+			"post": {
+				"operationId": "CreateRelationshipToOrganization",
+				"responses": {
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HttpResponse_PartyRelationshipEntity-or-string-Array-or-string-or-null_"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Resource already exists",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HttpResponse_ErrorEnum_"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"status": 400,
+											"result": "RELATIONSHIP_ALREADY_EXISTS"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Organization"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "organizationId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateRelationshipOrganizationToOrganizationBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/health": {
+			"get": {
+				"operationId": "GetHealth",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HttpResponse_string_"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "http://localhost:3003/party-api-service/v1",
+			"description": "Local environment"
+		},
+		{
+			"url": "https://backend.qa01.fintech.thomsonreuters.com/v1",
+			"description": "Q&A environment"
+		}
+	]
+}

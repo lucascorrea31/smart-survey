@@ -1,0 +1,18 @@
+{
+  "extends": "./node_modules/gts/",
+  "plugins": ["node"],
+  "rules": {
+    "node/no-unpublished-import": [
+      "error",
+      {
+        "allowModules": ["@jest/types", "@jest/globals"]
+      }
+    ],
+    "n/no-unpublished-import": [
+      "error",
+      {
+        "allowModules": ["@jest/types", "@jest/globals"]
+      }
+    ]
+  }
+}
