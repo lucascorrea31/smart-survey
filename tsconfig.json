@@ -9,6 +9,6 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": ["./src/**/*.ts"],
-  "exclude": ["**/*.test.ts", "jest.**.ts"]
+  "include": ["./src/**/*.ts", "jest.config.ts"],
+  "exclude": ["**/*.test.ts"]
 }

@@ -24,9 +24,12 @@
   "author": "Lucas Tadeu Correa de Oliveira",
   "license": "MIT",
   "dependencies": {
+    "@google-cloud/local-auth": "2.1.0",
     "axios": "^1.7.9",
     "dotenv": "^16.4.7",
     "express": "^5.0.1",
+    "fs": "0.0.1-security",
+    "googleapis": "105",
     "helmet": "^8.0.0",
     "pino": "^9.6.0",
     "reflect-metadata": "^0.2.2",
